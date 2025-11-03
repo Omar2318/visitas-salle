@@ -1,55 +1,50 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginUserDto } from './dto';
-import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from './decorators/get-user.decorator';
-import { User } from './entities/user.entity';
-import { UserRoleGuard } from './guards/user-role.guard';
-import { RoleProtected } from './decorators/role-protected.decorator';
-import { ValidRoles } from './interfaces';
-import { Auth } from './decorators';
+import { GetUser } from './presentation/decorators/get-user.decorator';
+import { Auth } from './presentation/decorators';
+import { type Response } from 'express';
+import { User } from './infrastructure/data/postgres';
+import { UserRole } from './domain/enums';
+import { CreateVisitorDto, LoginUserDto } from './presentation/dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+
+  constructor(private readonly authService: AuthService) { }
+
+  private returnCookie(res: Response, token: string) {
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: false,
+      maxAge: 1000 * 60 * 60
+    });
+
+  }
 
   @Post('register')
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.authService.create(createUserDto);
+  async createUser(@Body() createUserDto: CreateVisitorDto, @Res({passthrough: true}) res: Response) {
+    const token = await this.authService.create(createUserDto);
+    this.returnCookie(res,token);
+    return {message: 'Bienvenido'};
   }
 
   @Post('login')
-  loginUser(@Body() loginUserDto: LoginUserDto ){
-    return this.authService.login(loginUserDto);
-  }
+  async loginUser(@Body() loginUserDto: LoginUserDto, @Res({passthrough: true}) res: Response) {
+    const token = await this.authService.login(loginUserDto);
   
-  @Get('private')
-  @UseGuards(AuthGuard())
-  testingPrivateRoute(
-    @GetUser() user: User
-  ){
-    console.log(user)
-    return {
-      message: 'Hola mundo private'
-    }
-  }
-
-  @Get('private2')
-  @RoleProtected(ValidRoles.superUser)
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  privateRoute2(
-    @GetUser() user: User
-  ){
-    return 'ok'
+    this.returnCookie(res,token);
+    return {message: 'Bienvenido'};
   }
 
   //!El mero mero
 
   @Get('private3')
-  @Auth(ValidRoles.admin, ValidRoles.user)
+  @Auth(UserRole.UniversityAdmin)
   privateRoute3(
     @GetUser() user: User
-  ){
+  ) {
     return 'ok'
   }
 }

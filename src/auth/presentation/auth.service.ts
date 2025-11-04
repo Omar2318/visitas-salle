@@ -2,10 +2,12 @@ import { BadRequestException, Injectable, InternalServerErrorException, Unauthor
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CreateVisitorDto, LoginUserDto } from './presentation/dto';
-import { JwtPayload } from './presentation/interfaces/jwt-payload.interface';
+import { CreateVisitorDto, LoginUserDto } from './dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { User } from './infrastructure/data/postgres';
+import { User } from '../infrastructure/data/postgres';
+import { CreateVisitor } from '../application';
+import { UserError } from '../domain/errors';
 
 @Injectable()
 export class AuthService {
@@ -14,21 +16,15 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private readonly createVisitorUseCase: CreateVisitor,
   ) { }
 
-  async create(createUserDto: CreateVisitorDto) {
+  async createVisitor(createUserDto: CreateVisitorDto) {
     try {
-      const {password, ...userData} = createUserDto;
+      const newUser = await this.createVisitorUseCase.execute(createUserDto);
 
-      const user = this.userRepository.create({
-        ...userData,
-        password: bcrypt.hashSync(password, 10)
-      });
+      return this.getJwtToken({id: newUser.id});
 
-
-      await this.userRepository.save(user) 
-
-      return this.getJwtToken({id: user.id});
     }catch (error) {
       this.handleError(error);
     }
@@ -55,10 +51,9 @@ export class AuthService {
   }
 
   private handleError(error:any): never{
-    if(error.code === '23505'){
-      throw new BadRequestException(error.detail);
+    if(error instanceof UserError){
+      throw new BadRequestException(error.message);
     }
-
     console.log(error);
     throw new InternalServerErrorException('Please check server logs');
   }

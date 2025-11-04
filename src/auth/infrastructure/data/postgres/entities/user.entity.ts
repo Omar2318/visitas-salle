@@ -51,6 +51,11 @@ export class User {
         this.secondLastName = this.capitalizeWords(this.secondLastName);
     }
 
+    @BeforeUpdate()
+    checkFieldBeforeUpdate() {
+        this.checkFieldsBeforeInsert();
+    }
+
     private capitalizeWords(text: string): string {
         if (!text) return '';
 
@@ -63,8 +68,4 @@ export class User {
             .join(' ');
     }
 
-    @BeforeUpdate()
-    checkFieldBeforeUpdate() {
-        this.checkFieldsBeforeInsert();
-    }
 }

@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Res } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { GetUser } from './presentation/decorators/get-user.decorator';
-import { Auth } from './presentation/decorators';
 import { type Response } from 'express';
-import { User } from './infrastructure/data/postgres';
-import { UserRole } from './domain/enums';
-import { CreateVisitorDto, LoginUserDto } from './presentation/dto';
+import { AuthService } from './auth.service';
+import { CreateVisitorDto, LoginUserDto } from './dto';
+import { UserRole } from '../domain/enums';
+import { User } from '../infrastructure/data/postgres';
+import { Auth, GetUser } from './decorators';
+
 
 @Controller('auth')
 export class AuthController {
@@ -24,8 +24,8 @@ export class AuthController {
   }
 
   @Post('register')
-  async createUser(@Body() createUserDto: CreateVisitorDto, @Res({passthrough: true}) res: Response) {
-    const token = await this.authService.create(createUserDto);
+  async createVisitor(@Body() createUserDto: CreateVisitorDto, @Res({passthrough: true}) res: Response) {
+    const token = await this.authService.createVisitor(createUserDto);
     this.returnCookie(res,token);
     return {message: 'Bienvenido'};
   }

@@ -19,6 +19,6 @@ export class Visitor {
     @Column('boolean', {default: false})
     emailVerified: boolean;
 
-    @Column()
-    ineImageName: string;
+    @Column({nullable: true})
+    ineImageName?: string;
 }

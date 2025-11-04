@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
+import { AuthService } from './presentation/auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -8,6 +7,10 @@ import { JwtStrategy } from './presentation/strategies/jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SystemAdmin, UniversityAdmin, User, Visitor } from './infrastructure/data/postgres';
 import { AreaModule } from 'src/area/area.module';
+import { AuthController } from './presentation/auth.controller';
+import { CreateVisitor } from './application';
+import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
+import { PostgresAuthDatasource } from './infrastructure/datasource';
 
 @Module({
   imports: [
@@ -28,7 +31,7 @@ import { AreaModule } from 'src/area/area.module';
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, CreateVisitor, AuthRepositoryImpl, PostgresAuthDatasource],
   exports: [JwtStrategy, PassportModule, JwtModule, TypeOrmModule]
 })
 export class AuthModule {}

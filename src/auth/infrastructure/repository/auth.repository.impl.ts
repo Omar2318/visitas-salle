@@ -11,8 +11,8 @@ export class AuthRepositoryImpl implements AuthRepository {
         private readonly authDatasource: PostgresAuthDatasource
     ){}
 
-    createVisitor(createVisitorInput: CreateVisitorInput): void {
-        
+    createVisitor(createVisitorInput: CreateVisitorInput): Promise<UserEntity> {
+        return this.authDatasource.createVisitor(createVisitorInput);
     }
 
 

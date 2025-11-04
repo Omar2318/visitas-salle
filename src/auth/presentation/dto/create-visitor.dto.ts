@@ -1,6 +1,6 @@
 import { IsDate, IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { CreateVisitorInput } from "src/auth/application/inputs";
 import { Gender } from "src/auth/domain/enums";
-import { CreateVisitorInput } from "src/auth/domain/inputs";
 
 export class CreateVisitorDto implements CreateVisitorInput {
     @IsString()

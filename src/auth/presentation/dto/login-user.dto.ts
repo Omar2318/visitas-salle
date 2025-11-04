@@ -1,6 +1,7 @@
 import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { LoginUserInput } from "src/auth/application/inputs";
 
-export class LoginUserDto {
+export class LoginUserDto implements LoginUserInput{
 
     @IsString()
     @IsEmail()

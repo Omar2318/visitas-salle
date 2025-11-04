@@ -4,9 +4,9 @@ import { UserEntity } from "src/auth/domain/entities";
 import { User, Visitor } from "../data/postgres";
 import { Repository } from "typeorm";
 import { AuthDatasource } from "src/auth/domain/repository/auth.repository";
-import { CreateVisitorInput } from "src/auth/domain/inputs";
 import { UserRole } from "src/auth/domain/enums";
 import { InternalServerError, UserError } from "src/auth/domain/errors";
+import { CreateVisitorOptions, FindOneUserOptions } from "src/auth/domain/interfaces";
 
 @Injectable()
 export class PostgresAuthDatasource implements AuthDatasource{
@@ -27,13 +27,13 @@ export class PostgresAuthDatasource implements AuthDatasource{
         
     }
 
-    public async createVisitor(createVisitorInput: CreateVisitorInput): Promise<UserEntity> {
+    public async createVisitor(createVisitorOptions: CreateVisitorOptions): Promise<UserEntity> {
         try{
-            const {phoneNumber,birthDate} = createVisitorInput;
+            const {phoneNumber,birthDate} = createVisitorOptions;
             const newVisitor = this.visitorRepository.create({
                 birthDate,
                 phoneNumber,
-                user:{ ...createVisitorInput, role: UserRole.Visitor}
+                user:{ ...createVisitorOptions, role: UserRole.Visitor}
             });
 
             const visitor = await this.visitorRepository.save(newVisitor);
@@ -41,6 +41,17 @@ export class PostgresAuthDatasource implements AuthDatasource{
         }catch(error){
             this.handleError(error);
         }
+    }
+
+    public async findOneUser(findOneUserOptions: FindOneUserOptions): Promise<UserEntity | null> {
+        const {id, email} = findOneUserOptions;
+        let user: User | null = null;
+
+        if(id) user = await this.userRepository.findOneBy({id});
+        if(email) user = await this.userRepository.findOneBy({email});
+        if(!user) return null;
+
+        return UserEntity.fromObject(user);
     }
 
     

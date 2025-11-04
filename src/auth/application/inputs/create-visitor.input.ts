@@ -1,4 +1,4 @@
-import { Gender } from "../enums";
+import { Gender } from "src/auth/domain/enums";
 
 export interface CreateVisitorInput {
     names: string;

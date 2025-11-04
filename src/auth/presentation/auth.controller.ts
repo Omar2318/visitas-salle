@@ -12,9 +12,9 @@ export class AuthController {
 
   constructor(private readonly authService: AuthService) { }
 
-  private returnCookie(res: Response, token: string) {
+  private returnCookie(res: Response, payload: string) {
 
-    res.cookie('token', token, {
+    res.cookie('token', payload, {
       httpOnly: true,
       sameSite: 'strict',
       secure: false,
@@ -25,16 +25,16 @@ export class AuthController {
 
   @Post('register')
   async createVisitor(@Body() createUserDto: CreateVisitorDto, @Res({passthrough: true}) res: Response) {
-    const token = await this.authService.createVisitor(createUserDto);
-    this.returnCookie(res,token);
+    const payload = await this.authService.createVisitor(createUserDto);
+    this.returnCookie(res,payload);
     return {message: 'Bienvenido'};
   }
 
   @Post('login')
   async loginUser(@Body() loginUserDto: LoginUserDto, @Res({passthrough: true}) res: Response) {
-    const token = await this.authService.login(loginUserDto);
+    const payload = await this.authService.login(loginUserDto);
   
-    this.returnCookie(res,token);
+    this.returnCookie(res,payload);
     return {message: 'Bienvenido'};
   }
 

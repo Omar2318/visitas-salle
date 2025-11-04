@@ -9,6 +9,7 @@ export class UserEntity {
         protected _lastName: string,
         protected _secondLastName: string,
         protected _email: string,
+        protected _password: string,
         protected _gender: Gender,
     ){}
 
@@ -16,10 +17,14 @@ export class UserEntity {
         return this._id;
     }
 
-    public static fromObject(object: Record<string, any>): UserEntity{
-        const {id,names,lastName, secondLastName, email, gender} = object;
+    public get password(): string{
+        return this._password;
+    }
 
-        return new UserEntity(id,names,lastName,secondLastName,email,gender);
+    public static fromObject(object: Record<string, any>): UserEntity{
+        const {id,names,lastName, secondLastName, email,password, gender} = object;
+
+        return new UserEntity(id,names,lastName,secondLastName,email,password,gender);
     }
 
 }

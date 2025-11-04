@@ -13,11 +13,12 @@ export class VisitorEntity extends UserEntity {
         lastName: string,
         secondLastName: string,
         email: string,
+        password: string,
         gender: Gender,
         private ineImageName?: string
 
     ){
-        super(userId,names,lastName,secondLastName,email,gender);
+        super(userId,names,lastName,secondLastName,email,password,gender);
     }
 
     static fromObject(object: Record<string, any>){

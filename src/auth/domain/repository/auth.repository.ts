@@ -1,8 +1,9 @@
 import { UserEntity } from "../entities";
-import { CreateVisitorInput } from "../inputs";
+import { CreateVisitorOptions, FindOneUserOptions } from "../interfaces";
 
 export interface AuthRepository {
-    createVisitor(createVisitorInput: CreateVisitorInput): Promise<UserEntity>; 
+    createVisitor(createVisitorOptions: CreateVisitorOptions): Promise<UserEntity>; 
+    findOneUser(findOneUserOptions: FindOneUserOptions): Promise<UserEntity | null>;
 }
 
 export interface AuthDatasource extends AuthRepository{

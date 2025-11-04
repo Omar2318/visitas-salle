@@ -2,14 +2,18 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AreaService } from './area.service';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
+import { Auth } from 'src/auth/presentation/decorators';
+import { UserRole } from 'src/auth/domain/enums';
 
 @Controller('area')
 export class AreaController {
   constructor(private readonly areaService: AreaService) {}
 
   @Post()
-  create(@Body() createAreaDto: CreateAreaDto) {
-    return this.areaService.create(createAreaDto);
+  @Auth(UserRole.SystemAdmin)
+  async create(@Body() createAreaDto: CreateAreaDto) {
+    await this.areaService.create(createAreaDto);
+    return {message: 'Area creada correctamente'};
   }
 
   @Get()

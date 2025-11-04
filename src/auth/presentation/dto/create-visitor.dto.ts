@@ -45,6 +45,6 @@ export class CreateVisitorDto implements CreateVisitorInput {
     phoneNumber: string;
 
     @IsDate()
-    @ApiProperty()
+    @ApiProperty({type: Date})
     birthDate: Date;
 }

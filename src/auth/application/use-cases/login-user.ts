@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { AuthRepositoryImpl } from "src/auth/infrastructure/repository/auth.repository.impl";
 
-import { UserError } from "src/auth/domain/errors";
+import { UnauthorizedError, UserError } from "src/common/errors";
 import * as bcrypt from 'bcrypt';
 import { LoginUserInput } from "../inputs";
 
@@ -15,9 +15,9 @@ export class LoginUser {
         const {email, password} = loginUserInput;
 
         const user = await this.authRepository.findOneUser({email});
-        if(!user) throw new UserError('Credenciales invalidas');
+        if(!user) throw new UnauthorizedError('Credenciales invalidas');
 
-        if(!bcrypt.compareSync(password, user.password)) throw new UserError('Credenciales invalidas');
+        if(!bcrypt.compareSync(password, user.password)) throw new UnauthorizedError('Credenciales invalidas');
 
         return user.id;
     }

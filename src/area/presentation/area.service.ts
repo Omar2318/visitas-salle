@@ -1,11 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
+import { CreateArea } from '../application/use-cases';
+import { HandleError } from 'src/common/errors';
 
 @Injectable()
 export class AreaService {
-  create(createAreaDto: CreateAreaDto) {
-    return 'This action adds a new area';
+
+  constructor(
+    private readonly createAreaUseCase: CreateArea
+  ){}
+
+  async create(createAreaDto: CreateAreaDto) {
+    try{
+      await this.createAreaUseCase.execute(createAreaDto);
+    }catch(error){
+      HandleError.throw(error);
+    }
+   
   }
 
   findAll() {

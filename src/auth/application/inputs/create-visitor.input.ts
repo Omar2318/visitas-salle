@@ -1,12 +1,5 @@
-import { Gender } from "src/auth/domain/enums";
+import { CreateVisitorOptions } from "src/auth/domain/interfaces";
 
-export interface CreateVisitorInput {
-    names: string;
-    lastName: string;
-    secondLastName: string;
-    email: string;
-    password: string;
-    gender: Gender;
-    phoneNumber: string;
-    birthDate: Date;
+export interface CreateVisitorInput extends CreateVisitorOptions{
+   
 }

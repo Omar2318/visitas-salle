@@ -1,6 +1,7 @@
 import { Gender, UserRole } from "src/auth/domain/enums";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { Helpers } from "src/common/helpers";
 
 @Entity()
 export class User {
@@ -44,9 +45,9 @@ export class User {
     checkFieldsBeforeInsert() {
         this.email = this.email.toLowerCase().trim();
         this.password = bcrypt.hashSync(this.password, 10);
-        this.names = this.capitalizeWords(this.names);
-        this.lastName = this.capitalizeWords(this.lastName);
-        this.secondLastName = this.capitalizeWords(this.secondLastName);
+        this.names = Helpers.capitalizeWords(this.names);
+        this.lastName = Helpers.capitalizeWords(this.lastName);
+        this.secondLastName = Helpers.capitalizeWords(this.secondLastName);
     }
 
     @BeforeUpdate()
@@ -54,16 +55,6 @@ export class User {
         this.checkFieldsBeforeInsert();
     }
 
-    private capitalizeWords(text: string): string {
-        if (!text) return '';
 
-        return text
-            .trim() 
-            .split(/\s+/) 
-            .map(word =>
-                word.charAt(0).toLocaleUpperCase('es') + word.slice(1).toLocaleLowerCase('es')
-            )
-            .join(' ');
-    }
 
 }

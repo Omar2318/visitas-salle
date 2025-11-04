@@ -25,8 +25,9 @@ import { AccountsModule } from './accounts/accounts.module';
       validationSchema
     }),
     AuthModule,
-    AreaModule,
+   
     SeedModule,
+    AreaModule,
     AccountsModule,
   ],
   controllers: [],

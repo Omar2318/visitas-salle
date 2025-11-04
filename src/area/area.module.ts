@@ -1,15 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AreaService } from './area.service';
-import { AreaController } from './area.controller';
+import { AreaService } from './presentation/area.service';
+import { AreaController } from './presentation/area.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Area } from './entities/area.entity';
+import { Area } from './infrastructure/data/postgres';
+import { AuthModule } from 'src/auth/auth.module';
+import { AreaRepositoryImpl } from './infrastructure/repository/area.repository.impl';
+import { PostgresAreaDatasource } from './infrastructure/datasource/postgres-area.datasource';
+import { CreateArea } from './application/use-cases';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Area])
+    AuthModule,
+    TypeOrmModule.forFeature([Area]),
   ],
   controllers: [AreaController],
-  providers: [AreaService],
+  providers: [AreaService, AreaRepositoryImpl, PostgresAreaDatasource, CreateArea],
   exports: [TypeOrmModule]
 })
 export class AreaModule {}

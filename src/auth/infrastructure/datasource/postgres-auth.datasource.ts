@@ -5,7 +5,7 @@ import { User, Visitor } from "../data/postgres";
 import { Repository } from "typeorm";
 import { AuthDatasource } from "src/auth/domain/repository/auth.repository";
 import { UserRole } from "src/auth/domain/enums";
-import { InternalServerError, UserError } from "src/auth/domain/errors";
+import { InternalServerError, UserError } from "src/common/errors";
 import { CreateVisitorOptions, FindOneUserOptions } from "src/auth/domain/interfaces";
 
 @Injectable()

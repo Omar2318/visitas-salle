@@ -6,7 +6,6 @@ import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './presentation/strategies/jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SystemAdmin, UniversityAdmin, User, Visitor } from './infrastructure/data/postgres';
-import { AreaModule } from 'src/area/area.module';
 import { AuthController } from './presentation/auth.controller';
 import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
 import { PostgresAuthDatasource } from './infrastructure/datasource';
@@ -15,7 +14,6 @@ import { CreateVisitor, LoginUser } from './application/use-cases';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Visitor,SystemAdmin, UniversityAdmin]),
-    AreaModule,
     PassportModule.register({ defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [],

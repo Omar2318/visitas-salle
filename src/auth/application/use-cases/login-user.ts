@@ -16,9 +16,8 @@ export class LoginUser {
 
         const user = await this.authRepository.findOneUser({email});
         if(!user) throw new UnauthorizedError('Credenciales invalidas');
-
         if(!bcrypt.compareSync(password, user.password)) throw new UnauthorizedError('Credenciales invalidas');
-
-        return user.id;
+       
+        return user.userId;
     }
 }

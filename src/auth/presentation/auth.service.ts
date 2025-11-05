@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateVisitorDto, LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { CreateVisitor, LoginUser } from '../application/use-cases';
+import { CreateVisitor, LoginUser, ValidateEmail } from '../application/use-cases';
 import { HandleError } from 'src/common/errors';
 
 @Injectable()
@@ -12,15 +12,17 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly createVisitorUseCase: CreateVisitor,
     private readonly loginUserUseCase: LoginUser,
+    private readonly validateEmailUseCase: ValidateEmail,
   ) { }
 
   async createVisitor(createUserDto: CreateVisitorDto) {
     try {
       const newUser = await this.createVisitorUseCase.execute(createUserDto);
 
-      return this.getJwtToken({id: newUser.id});
+      return this.getJwtToken({id: newUser.userId});
 
     }catch (error) {
+     
       HandleError.throw(error);
     }
   }
@@ -33,7 +35,10 @@ export class AuthService {
       HandleError.throw(error)
     }
     
-    
+  }
+
+  public validateEmail(token: string){
+    return this.validateEmailUseCase.execute(token);
   }
 
   private getJwtToken(payload: JwtPayload){

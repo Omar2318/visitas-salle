@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, Param } from '@nestjs/common';
 import { type Response } from 'express';
 import { AuthService } from './auth.service';
 import { CreateVisitorDto, LoginUserDto } from './dto';
@@ -13,6 +13,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   private returnCookie(res: Response, payload: string) {
+    res.clearCookie('token');
 
     res.cookie('token', payload, {
       httpOnly: true,
@@ -36,6 +37,15 @@ export class AuthController {
   
     this.returnCookie(res,payload);
     return {message: 'Bienvenido'};
+  }
+
+  @Get('validate-email/:token')
+  async validateEmail(@Param('token') token: string, @Res({passthrough: true}) res: Response){
+    const validado = await this.authService.validateEmail(token);
+    
+    if(validado) res.send('Email validado correctamente');
+
+    return;
   }
 
   //!El mero mero

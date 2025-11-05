@@ -7,6 +7,7 @@ import { AuthDatasource } from "src/auth/domain/repository/auth.repository";
 import { UserRole } from "src/auth/domain/enums";
 import { InternalServerError, UserError } from "src/common/errors";
 import { CreateVisitorOptions, FindOneUserOptions } from "src/auth/domain/interfaces";
+import { VisitorEntity } from "src/auth/domain/entities/visitor.entity";
 
 @Injectable()
 export class PostgresAuthDatasource implements AuthDatasource{
@@ -19,6 +20,7 @@ export class PostgresAuthDatasource implements AuthDatasource{
     ){}
 
     private handleError(error: any):never{
+        console.log(error)
         if(error.constraint === 'UQ_e12875dfb3b1d92d7d7c5377e22'){
             throw new UserError('El email ya esta registrado');
         }
@@ -27,7 +29,7 @@ export class PostgresAuthDatasource implements AuthDatasource{
         
     }
 
-    public async createVisitor(createVisitorOptions: CreateVisitorOptions): Promise<UserEntity> {
+    public async createVisitor(createVisitorOptions: CreateVisitorOptions): Promise<VisitorEntity> {
         try{
             const {phoneNumber,birthDate} = createVisitorOptions;
             const newVisitor = this.visitorRepository.create({
@@ -37,7 +39,10 @@ export class PostgresAuthDatasource implements AuthDatasource{
             });
 
             const visitor = await this.visitorRepository.save(newVisitor);
-            return UserEntity.fromObject(visitor);
+            
+            
+            return VisitorEntity.fromObject(visitor);
+            
         }catch(error){
             this.handleError(error);
         }
@@ -50,9 +55,20 @@ export class PostgresAuthDatasource implements AuthDatasource{
         if(id) user = await this.userRepository.findOneBy({id});
         if(email) user = await this.userRepository.findOneBy({email});
         if(!user) return null;
-
+        
         return UserEntity.fromObject(user);
     }
 
-    
+    public async validateEmail(visitorId: string): Promise<boolean> {
+        const visitor = await this.visitorRepository.findOneBy({id: visitorId});
+        if(!visitor) return false;
+        if(visitor.emailVerified) return false;
+        visitor.emailVerified = true;
+
+        await this.visitorRepository.save(visitor);
+
+        return true;
+
+
+    }
 }

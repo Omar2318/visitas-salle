@@ -6,11 +6,11 @@ export class Visitor {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @OneToOne(()=>User, {cascade: true, nullable: false})
+    @OneToOne(()=>User, {cascade: true, nullable: false, onDelete: 'CASCADE'})
     @JoinColumn()
     user: User;
 
-    @Column({unique: true})
+    @Column()
     phoneNumber: string;
 
     @Column({type:'date'})

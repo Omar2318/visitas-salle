@@ -4,10 +4,10 @@ import { UserEntity } from "./user.entity";
 export class VisitorEntity extends UserEntity {
 
     constructor(
-        private visitorId: string,
-        private phoneNumber: string,
-        private birthDate: Date,
-        private emailVerified: boolean,
+        private _visitorId: string,
+        private _phoneNumber: string,
+        private _birthDate: Date,
+        private _emailVerified: boolean,
         userId: string,
         names: string,
         lastName: string,
@@ -15,15 +15,21 @@ export class VisitorEntity extends UserEntity {
         email: string,
         password: string,
         gender: Gender,
-        private ineImageName?: string
+        private _ineImageName?: string
 
     ){
         super(userId,names,lastName,secondLastName,email,password,gender);
     }
 
-    static fromObject(object: Record<string, any>){
-        const {visitorId, phoneNumber, birthDate, emailVerified, userId, names, lastName, secondLastName, email, gender, ineImageName} = object;
+    public get visitorId(){
+        return this._visitorId;
+    }
 
+    static fromObject(object: Record<string, any>){
+        const {id:visitorId, user,phoneNumber, birthDate, emailVerified, ineImageName} = object;
+
+        const {id:userId,email,password,names,lastName,secondLastName,gender,isActive,role} = user;
+        
         return new VisitorEntity(visitorId, phoneNumber, birthDate, emailVerified, userId, names, lastName, secondLastName, email, gender, ineImageName);
         
     }

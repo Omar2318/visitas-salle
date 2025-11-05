@@ -9,7 +9,8 @@ import { SystemAdmin, UniversityAdmin, User, Visitor } from './infrastructure/da
 import { AuthController } from './presentation/auth.controller';
 import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
 import { PostgresAuthDatasource } from './infrastructure/datasource';
-import { CreateVisitor, LoginUser } from './application/use-cases';
+import { CreateVisitor, LoginUser, ValidateEmail } from './application/use-cases';
+import { EmailService } from './infrastructure/services';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { CreateVisitor, LoginUser } from './application/use-cases';
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, CreateVisitor, LoginUser, AuthRepositoryImpl, PostgresAuthDatasource],
+  providers: [AuthService, JwtStrategy, CreateVisitor, LoginUser, AuthRepositoryImpl, PostgresAuthDatasource, EmailService, ValidateEmail],
   exports: [JwtStrategy, PassportModule, JwtModule, TypeOrmModule]
 })
 export class AuthModule {}

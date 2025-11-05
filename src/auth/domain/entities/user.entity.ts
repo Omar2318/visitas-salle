@@ -4,7 +4,7 @@ export class UserEntity {
 
 
     constructor(
-        protected _id: string,
+        protected _userId: string,
         protected _names: string,
         protected _lastName: string,
         protected _secondLastName: string,
@@ -13,12 +13,16 @@ export class UserEntity {
         protected _gender: Gender,
     ){}
 
-    public get id(): string{
-        return this._id;
+    public get userId(): string{
+        return this._userId;
     }
 
     public get password(): string{
         return this._password;
+    }
+
+    public get email(): string{
+        return this._email;
     }
 
     public static fromObject(object: Record<string, any>): UserEntity{

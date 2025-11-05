@@ -37,8 +37,13 @@ export class AuthService {
     
   }
 
-  public validateEmail(token: string){
-    return this.validateEmailUseCase.execute(token);
+  public async validateEmail(token: string){
+    try{
+      return await this.validateEmailUseCase.execute(token);
+    }catch(error){
+     
+      HandleError.throw(error);
+    }
   }
 
   private getJwtToken(payload: JwtPayload){

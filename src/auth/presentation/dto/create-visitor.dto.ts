@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
 import { CreateVisitorInput } from "src/auth/application/inputs";
-import { Gender } from "src/auth/domain/enums";
+import { Gender } from "src/common/enums";
 
 export class CreateVisitorDto implements CreateVisitorInput {
     @IsString()

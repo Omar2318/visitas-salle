@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './presentation/strategies/jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SystemAdmin, UniversityAdmin, User, Visitor } from './infrastructure/data/postgres';
+import { SystemAdmin, User, Visitor } from './infrastructure/data/postgres';
 import { AuthController } from './presentation/auth.controller';
 import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
 import { PostgresAuthDatasource } from './infrastructure/datasource';
@@ -14,7 +14,7 @@ import { EmailService } from './infrastructure/services';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Visitor,SystemAdmin, UniversityAdmin]),
+    TypeOrmModule.forFeature([User, Visitor,SystemAdmin]),
     PassportModule.register({ defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       imports: [],

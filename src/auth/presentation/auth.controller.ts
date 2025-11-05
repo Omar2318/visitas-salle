@@ -13,8 +13,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
   private returnCookie(res: Response, payload: string) {
-    res.clearCookie('token');
-
+   
     res.cookie('token', payload, {
       httpOnly: true,
       sameSite: 'strict',
@@ -42,10 +41,8 @@ export class AuthController {
   @Get('validate-email/:token')
   async validateEmail(@Param('token') token: string, @Res({passthrough: true}) res: Response){
     const validado = await this.authService.validateEmail(token);
-    
-    if(validado) res.send('Email validado correctamente');
-
-    return;
+    const mensaje = validado ? 'Email validado correctamente' : 'Not found';
+    res.send(mensaje);
   }
 
   //!El mero mero

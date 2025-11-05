@@ -3,3 +3,4 @@ export * from './user.error';
 export * from './handle.error';
 export * from './unauthorized.error';
 export * from './handle.error';
+export * from './nof-found.error';

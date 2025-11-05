@@ -1,7 +1,8 @@
-import { Gender, UserRole } from "src/auth/domain/enums";
+import { UserRole } from "src/auth/domain/enums";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Helpers } from "src/common/helpers";
+import { Gender } from "src/common/enums";
 
 @Entity()
 export class User {

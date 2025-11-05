@@ -1,4 +1,4 @@
-import { Gender } from "../enums";
+import { Gender } from "src/common/enums";
 
 export class UserEntity {
 

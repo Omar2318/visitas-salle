@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
+import { JwtService, TokenExpiredError } from "@nestjs/jwt";
 import { AuthRepositoryImpl } from "src/auth/infrastructure/repository/auth.repository.impl";
+import { InternalServerError, NotFoundError } from "src/common/errors";
 
 @Injectable()
 export class ValidateEmail {
@@ -10,7 +11,19 @@ export class ValidateEmail {
     ){}
 
     public async execute(token: string){
-        const {visitorId} = this.jwtService.verify(token);
-        return this.authRepository.validateEmail(visitorId);
+        try{
+            const {visitorId} = this.jwtService.verify(token);
+
+            const validado = await this.authRepository.validateEmail(visitorId);
+            
+            return validado;
+
+        }catch(error){
+            if(error instanceof TokenExpiredError){
+                return false;
+            }            
+            throw new InternalServerError();
+        }
+        
     }
 }

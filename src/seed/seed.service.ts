@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Gender, UserRole } from 'src/auth/domain/enums';
+import {  UserRole } from 'src/auth/domain/enums';
 import { SystemAdmin, User } from 'src/auth/infrastructure/data/postgres';
+import { Gender } from 'src/common/enums';
 import { Repository } from 'typeorm';
 
 

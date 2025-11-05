@@ -1,4 +1,4 @@
-import { Gender } from "../enums";
+import { Gender } from "src/common/enums";
 import { UserEntity } from "./user.entity";
 
 export class VisitorEntity extends UserEntity {

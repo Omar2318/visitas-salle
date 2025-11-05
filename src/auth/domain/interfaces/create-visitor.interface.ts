@@ -1,12 +1,6 @@
-import { Gender } from "../enums";
+import { CreateUserOptions } from "src/common/interfaces";
 
-export interface CreateVisitorOptions {
-    names: string;
-    lastName: string;
-    secondLastName: string;
-    email: string;
-    password: string;
-    gender: Gender;
+export interface CreateVisitorOptions extends CreateUserOptions{
     phoneNumber: string;
     birthDate: Date;
 }

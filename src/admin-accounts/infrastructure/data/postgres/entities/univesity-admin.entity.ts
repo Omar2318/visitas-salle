@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./user.entity";
-import { UniversityRole } from "src/auth/domain/enums";
+import { User } from "src/auth/infrastructure/data/postgres";
+import { UniversityRole } from "src/admin-accounts/domain/enums";
 
 @Entity()
 export class UniversityAdmin {

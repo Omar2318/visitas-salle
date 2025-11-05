@@ -1,9 +1,11 @@
-import { BadRequestException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { UserError } from "./user.error";
 import { UnauthorizedError } from "./unauthorized.error";
+import { NotFoundError } from "./nof-found.error";
 
 export class HandleError {
     static throw(error: any): never {
+        
         if (error instanceof UserError) {
             throw new BadRequestException(error.message);
         }
@@ -11,6 +13,11 @@ export class HandleError {
         if(error instanceof UnauthorizedError){
           
             throw new UnauthorizedException(error.message);
+        }
+
+        if(error instanceof NotFoundError){
+            
+            throw new NotFoundException();
         }
 
         console.error(error);

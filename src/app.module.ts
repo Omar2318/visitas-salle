@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { validationSchema } from './config/validation';
 import { AreaModule } from './area/area.module';
 import { SeedModule } from './seed/seed.module';
-import { AccountsModule } from './accounts/accounts.module';
+import { AdminAccountsModule } from './admin-accounts/admin-accounts.module';
 
 @Module({
   imports: [
@@ -27,8 +27,8 @@ import { AccountsModule } from './accounts/accounts.module';
     AuthModule,
    
     SeedModule,
-    AreaModule,
-    AccountsModule,
+    AreaModule,    
+    AdminAccountsModule,
   ],
   controllers: [],
   providers: [],

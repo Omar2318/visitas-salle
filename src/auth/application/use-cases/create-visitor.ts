@@ -22,7 +22,6 @@ export class CreateVisitor {
         const newVisitor = await this.authRepository.createVisitor(createVisitorInput);
         
         await this.sendEmailValidationLink(newVisitor.visitorId, newVisitor.email);
-        console.log(newVisitor);
         return newVisitor;
     }
 

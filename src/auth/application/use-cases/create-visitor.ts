@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { AuthRepositoryImpl } from '../../infrastructure/repository/auth.repository.impl';
-import { UserEntity } from "src/auth/domain/entities";
 import { CreateVisitorInput } from "../inputs";
-import { EmailService } from "src/auth/infrastructure/services";
+import { EmailService } from "src/common/services";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { InternalServerError } from "src/common/errors";

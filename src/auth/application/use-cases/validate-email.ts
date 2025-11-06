@@ -12,6 +12,7 @@ export class ValidateEmail {
 
     public async execute(token: string){
         try{
+            
             const {visitorId} = this.jwtService.verify(token);
 
             const validado = await this.authRepository.validateEmail(visitorId);

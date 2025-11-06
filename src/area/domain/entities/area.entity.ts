@@ -11,5 +11,11 @@ export class AreaEntity {
     public get name(){
         return this._name;
     }
+
+    public static fromObject(object: Record<string, any>){
+        const {id, name} = object;
+
+        return new AreaEntity(id,name);
+    }
     
 }

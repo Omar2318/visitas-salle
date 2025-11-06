@@ -5,6 +5,5 @@ export interface CreateUserOptions {
     lastName: string;
     secondLastName: string;
     email: string;
-    password: string;
     gender: Gender;
 }

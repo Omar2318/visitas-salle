@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVisitorDto, LoginUserDto } from './dto';
+import { CreateVisitorDto, LoginUserDto, ResetPasswordDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { CreateVisitor, LoginUser, ValidateEmail } from '../application/use-cases';
+import { CreateVisitor, ForgotPassword, LoginUser, ResetPassword, ValidateEmail } from '../application/use-cases';
 import { HandleError } from 'src/common/errors';
 
 @Injectable()
@@ -13,6 +13,8 @@ export class AuthService {
     private readonly createVisitorUseCase: CreateVisitor,
     private readonly loginUserUseCase: LoginUser,
     private readonly validateEmailUseCase: ValidateEmail,
+    private readonly forgotPasswordUseCase: ForgotPassword,
+    private readonly resetPasswordUseCase: ResetPassword
   ) { }
 
   async createVisitor(createUserDto: CreateVisitorDto) {
@@ -45,6 +47,29 @@ export class AuthService {
       HandleError.throw(error);
     }
   }
+
+  public async forgotPassword(email:string){
+    try{
+      await this.forgotPasswordUseCase.execute(email);
+    }catch(error){
+      HandleError.throw(error);
+    }
+  }
+
+  public async resetPassword(resetPasswordDto: ResetPasswordDto){
+    try{
+      return await this.resetPasswordUseCase.execute(resetPasswordDto);
+    }catch(error){
+      HandleError.throw(error)
+    }
+  }
+
+
+
+
+
+
+
 
   private getJwtToken(payload: JwtPayload){
     const token = this.jwtService.sign(payload);

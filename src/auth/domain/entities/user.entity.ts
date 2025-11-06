@@ -11,6 +11,7 @@ export class UserEntity {
         protected _email: string,
         protected _password: string,
         protected _gender: Gender,
+        protected _isActive: boolean,
     ){}
 
     public get userId(): string{
@@ -26,9 +27,9 @@ export class UserEntity {
     }
 
     public static fromObject(object: Record<string, any>): UserEntity{
-        const {id,names,lastName, secondLastName, email,password, gender} = object;
+        const {id,names,lastName, secondLastName, email,password, gender, isActive} = object;
 
-        return new UserEntity(id,names,lastName,secondLastName,email,password,gender);
+        return new UserEntity(id,names,lastName,secondLastName,email,password,gender, isActive);
     }
 
 }

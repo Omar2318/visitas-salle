@@ -1,7 +1,7 @@
 import { CreateUserOptions } from "src/common/interfaces";
 import { UniversityRole } from "../enums";
 
-export interface CreateAccountOptions extends CreateUserOptions{
-    rol: UniversityRole;
+export interface CreateAdminAccountOptions extends CreateUserOptions{
+    role: UniversityRole;
     areaId: string;
 }

@@ -15,10 +15,11 @@ export class VisitorEntity extends UserEntity {
         email: string,
         password: string,
         gender: Gender,
+        isActive: boolean,
         private _ineImageName?: string
 
     ){
-        super(userId,names,lastName,secondLastName,email,password,gender);
+        super(userId,names,lastName,secondLastName,email,password,gender, isActive);
     }
 
     public get visitorId(){
@@ -30,7 +31,7 @@ export class VisitorEntity extends UserEntity {
 
         const {id:userId,email,password,names,lastName,secondLastName,gender,isActive,role} = user;
         
-        return new VisitorEntity(visitorId, phoneNumber, birthDate, emailVerified, userId, names, lastName, secondLastName, email, gender, ineImageName);
+        return new VisitorEntity(visitorId, phoneNumber, birthDate, emailVerified, userId, names, lastName, secondLastName, email, password, gender, isActive,ineImageName);
         
     }
 

@@ -6,7 +6,7 @@ import { Repository } from "typeorm";
 import { AuthDatasource } from "src/auth/domain/repository/auth.repository";
 import { UserRole } from "src/auth/domain/enums";
 import { InternalServerError, UserError } from "src/common/errors";
-import { CreateVisitorOptions, FindOneUserOptions } from "src/auth/domain/interfaces";
+import { CreateVisitorOptions, FindOneUserOptions, UpdateUserOptions } from "src/auth/domain/interfaces";
 import { VisitorEntity } from "src/auth/domain/entities/visitor.entity";
 
 @Injectable()
@@ -32,6 +32,7 @@ export class PostgresAuthDatasource implements AuthDatasource{
     public async createVisitor(createVisitorOptions: CreateVisitorOptions): Promise<VisitorEntity> {
         try{
             const {phoneNumber,birthDate} = createVisitorOptions;
+           
             const newVisitor = this.visitorRepository.create({
                 birthDate,
                 phoneNumber,
@@ -68,7 +69,21 @@ export class PostgresAuthDatasource implements AuthDatasource{
         await this.visitorRepository.save(visitor);
 
         return true;
+    }
 
+    public async updateUser(updateUserOptions: UpdateUserOptions): Promise<UserEntity | null> {
+        const {userId} = updateUserOptions;
 
+        const updateUser = await this.userRepository.preload({
+            id: userId,
+            ...updateUserOptions
+        });
+
+        if(!updateUser) return null;
+
+        const updatedUser = await this.userRepository.save(updateUser);
+
+        return UserEntity.fromObject(updatedUser);
+        
     }
 }

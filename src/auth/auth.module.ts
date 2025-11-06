@@ -9,11 +9,12 @@ import { SystemAdmin, User, Visitor } from './infrastructure/data/postgres';
 import { AuthController } from './presentation/auth.controller';
 import { AuthRepositoryImpl } from './infrastructure/repository/auth.repository.impl';
 import { PostgresAuthDatasource } from './infrastructure/datasource';
-import { CreateVisitor, LoginUser, ValidateEmail } from './application/use-cases';
-import { EmailService } from './infrastructure/services';
+import { CreateVisitor, ForgotPassword, LoginUser, ResetPassword, ValidateEmail } from './application/use-cases';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   imports: [
+    CommonModule,
     TypeOrmModule.forFeature([User, Visitor,SystemAdmin]),
     PassportModule.register({ defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
@@ -30,7 +31,7 @@ import { EmailService } from './infrastructure/services';
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, CreateVisitor, LoginUser, AuthRepositoryImpl, PostgresAuthDatasource, EmailService, ValidateEmail],
-  exports: [JwtStrategy, PassportModule, JwtModule, TypeOrmModule]
+  providers: [AuthService, JwtStrategy, CreateVisitor, LoginUser, AuthRepositoryImpl, PostgresAuthDatasource, ValidateEmail, ForgotPassword, ResetPassword],
+  exports: [JwtStrategy, PassportModule, JwtModule, TypeOrmModule, AuthService]
 })
 export class AuthModule {}

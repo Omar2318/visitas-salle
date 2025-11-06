@@ -1,10 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdminAccountDto, UpdateAdminAccountDto } from './dto';
+import { CreateAdminAccount } from '../application/use-cases';
+import { HandleError } from 'src/common/errors';
 
 @Injectable()
 export class AdminAccountsService {
-  create(createAdminAccountDto: CreateAdminAccountDto) {
-    return 'This action adds a new adminAccount';
+
+  constructor(
+    private readonly createAccountUseCase: CreateAdminAccount
+  ){}
+
+  async create(createAdminAccountDto: CreateAdminAccountDto) {
+    try{
+      return await this.createAccountUseCase.execute(createAdminAccountDto);
+    }catch(error){
+      HandleError.throw(error);
+    }
+    
   }
 
   findAll() {

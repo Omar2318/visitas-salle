@@ -6,6 +6,7 @@ import { validationSchema } from './config/validation';
 import { AreaModule } from './area/area.module';
 import { SeedModule } from './seed/seed.module';
 import { AdminAccountsModule } from './admin-accounts/admin-accounts.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -25,10 +26,10 @@ import { AdminAccountsModule } from './admin-accounts/admin-accounts.module';
       validationSchema
     }),
     AuthModule,
-   
     SeedModule,
     AreaModule,    
-    AdminAccountsModule,
+    AdminAccountsModule, 
+    CommonModule,
   ],
   controllers: [],
   providers: [],

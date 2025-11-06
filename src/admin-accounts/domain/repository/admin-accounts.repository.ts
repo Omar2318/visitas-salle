@@ -1,7 +1,10 @@
-import { CreateAccountOptions } from "../interfaces";
+import { AreaEntity } from "src/area/domain/entities";
+import { CreateAdminAccountOptions } from "../interfaces";
+import { UniversityAdminEntity } from "../entities";
 
 export interface AdminAccountsRepository {
-     createAccount(createAccountOptions: CreateAccountOptions): Promise<boolean>;
+     findArea(id: string): Promise<AreaEntity | null>;
+     createAccount(createAccountOptions: CreateAdminAccountOptions): Promise<UniversityAdminEntity>;
 }
 
 export interface AdminAccountsDatasource extends AdminAccountsRepository{

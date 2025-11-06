@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Res, Param } from '@nestjs/common';
 import { type Response } from 'express';
 import { AuthService } from './auth.service';
-import { CreateVisitorDto, LoginUserDto } from './dto';
+import { CreateVisitorDto, ForgotPasswordDto, LoginUserDto, ResetPasswordDto } from './dto';
 import { UserRole } from '../domain/enums';
 import { User } from '../infrastructure/data/postgres';
 import { Auth, GetUser } from './decorators';
@@ -43,6 +43,21 @@ export class AuthController {
     const validado = await this.authService.validateEmail(token);
     const mensaje = validado ? 'Email validado correctamente' : 'Not found';
     res.send(mensaje);
+  }
+
+  @Post('forgot-password')
+  async recoverPassword(@Body() forgotPasswordDto: ForgotPasswordDto){
+    const {email} = forgotPasswordDto;
+    await this.authService.forgotPassword(email);
+    return {message: 'Email mandado correctamente'};
+  }
+
+  @Post('reset-password')
+  async resetPassoword(@Body() resetPasswordDto: ResetPasswordDto){
+    await this.authService.resetPassword(resetPasswordDto);
+
+    return {message: 'Contraseña actualizada correctamente'};
+    
   }
 
   //!El mero mero

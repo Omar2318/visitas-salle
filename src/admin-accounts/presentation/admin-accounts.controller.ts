@@ -8,8 +8,9 @@ export class AdminAccountsController {
   constructor(private readonly adminAccountsService: AdminAccountsService) {}
 
   @Post()
-  create(@Body() createAdminAccountDto: CreateAdminAccountDto) {
-    return this.adminAccountsService.create(createAdminAccountDto);
+  async create(@Body() createAdminAccountDto: CreateAdminAccountDto) {
+    await this.adminAccountsService.create(createAdminAccountDto);
+    return {message: 'Administrador creado correctamente'};
   }
 
   @Get()

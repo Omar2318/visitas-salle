@@ -17,7 +17,7 @@ export class HandleError {
 
         if(error instanceof NotFoundError){
             
-            throw new NotFoundException();
+            throw new NotFoundException(error.message);
         }
 
         console.error(error);

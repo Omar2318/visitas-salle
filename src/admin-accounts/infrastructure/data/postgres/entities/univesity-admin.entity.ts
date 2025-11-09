@@ -12,7 +12,7 @@ export class UniversityAdmin {
     @JoinColumn()
     user: User;
 
-    @ManyToOne(()=>Area, (area)=> area.universityAdmins)
+    @ManyToOne(()=>Area, (area)=> area.universityAdmins, {onDelete: 'SET NULL'})
     area: Area;
 
     @Column({type: 'enum', enum: UniversityRole})

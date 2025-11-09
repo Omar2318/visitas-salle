@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
-import { CreateArea } from '../application/use-cases';
+import { CreateArea, DeleteArea, GetAllAreas, GetArea, UpdateArea } from '../application/use-cases';
 import { HandleError } from 'src/common/errors';
+import { PaginationDto } from 'src/common/dto';
 
 @Injectable()
 export class AreaService {
 
   constructor(
-    private readonly createAreaUseCase: CreateArea
+    private readonly createAreaUseCase: CreateArea,
+    private readonly getAllAreasUseCase: GetAllAreas,
+    private readonly getAreaUseCase: GetArea,
+    private readonly updateAreaUseCase: UpdateArea,
+    private readonly deleteAreaUseCase: DeleteArea,
   ){}
 
   async create(createAreaDto: CreateAreaDto) {
@@ -20,19 +25,31 @@ export class AreaService {
    
   }
 
-  findAll() {
-    return `This action returns all area`;
+  findAll(paginationDto: PaginationDto) {
+    return this.getAllAreasUseCase.execute(paginationDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} area`;
+  async findOne(id: string) {
+    try{
+      return await this.getAreaUseCase.execute(id);
+    }catch(error){
+      HandleError.throw(error);
+    }
   }
 
-  update(id: number, updateAreaDto: UpdateAreaDto) {
-    return `This action updates a #${id} area`;
+  async update(id: string, updateAreaDto: UpdateAreaDto) {
+    try{
+      return await this.updateAreaUseCase.execute(id, updateAreaDto);
+    }catch(error){
+      HandleError.throw(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} area`;
+  async remove(id: string) {
+    try{
+      return await this.deleteAreaUseCase.execute(id);
+    }catch(error){
+      HandleError.throw(error);
+    }
   }
 }

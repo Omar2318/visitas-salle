@@ -6,7 +6,7 @@ import { Area } from './infrastructure/data/postgres';
 import { AuthModule } from 'src/auth/auth.module';
 import { AreaRepositoryImpl } from './infrastructure/repository/area.repository.impl';
 import { PostgresAreaDatasource } from './infrastructure/datasource/postgres-area.datasource';
-import { CreateArea } from './application/use-cases';
+import { CreateArea, DeleteArea, GetAllAreas, GetArea, UpdateArea } from './application/use-cases';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { CreateArea } from './application/use-cases';
     TypeOrmModule.forFeature([Area]),
   ],
   controllers: [AreaController],
-  providers: [AreaService, AreaRepositoryImpl, PostgresAreaDatasource, CreateArea],
+  providers: [AreaService, AreaRepositoryImpl, PostgresAreaDatasource, CreateArea, GetAllAreas, GetArea, UpdateArea, DeleteArea],
   exports: [TypeOrmModule]
 })
 export class AreaModule {}

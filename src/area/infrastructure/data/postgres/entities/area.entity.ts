@@ -10,7 +10,7 @@ export class Area {
     @Column({unique: true})
     name: string;
 
-    @OneToMany(()=> UniversityAdmin, (universityAdmin)=> universityAdmin.area, {onDelete: 'SET NULL'})
+    @OneToMany(()=> UniversityAdmin, (universityAdmin)=> universityAdmin.area)
     universityAdmins: UniversityAdmin[]
 
     @BeforeInsert()

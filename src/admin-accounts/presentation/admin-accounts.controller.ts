@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AdminAccountsService } from './admin-accounts.service';
 import { CreateAdminAccountDto, UpdateAdminAccountDto } from './dto';
+import { Auth } from 'src/auth/presentation/decorators';
+import { UserRole } from 'src/auth/domain/enums';
 
 
 @Controller('admin-accounts')
@@ -8,6 +10,7 @@ export class AdminAccountsController {
   constructor(private readonly adminAccountsService: AdminAccountsService) {}
 
   @Post()
+  @Auth(UserRole.SystemAdmin)
   async create(@Body() createAdminAccountDto: CreateAdminAccountDto) {
     await this.adminAccountsService.create(createAdminAccountDto);
     return {message: 'Administrador creado correctamente'};

@@ -3,7 +3,6 @@ import { UserObject } from "src/auth/domain/interfaces";
 import { UniversityRole } from "../enums";
 
 export interface UniversityAdminObject extends UserObject {
-    id: string;
-    role: UniversityRole,
+    adminRole: UniversityRole,
     area: AreaObject,
 }

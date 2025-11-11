@@ -64,16 +64,16 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource{
 
     public async findAllByPagination(paginationOptions: PaginationOptions): Promise<UniversityAdminObject[]> {
         const {limit = 5,page = 0} = paginationOptions;
-
+       
         const admins = await this.universityAdminRepo.find({
+            relations: {area: true, user: true},
             order: { area: {name: 'ASC'}},
             take: limit,
             skip: (page * limit)
         });
 
-        console.log(admins)
-
-        return [];
+        
+        return admins.map( admin => UniversityAdminEntity.fromObject(admin).toObject() );
     }
 
 

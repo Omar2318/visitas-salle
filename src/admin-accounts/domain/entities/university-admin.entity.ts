@@ -31,8 +31,7 @@ export class UniversityAdminEntity extends UserEntity {
         return {
             ...super.toObject(),
             area: {...this._area.toObject()},
-            id: this._adminId,
-            role: this._adminRole,
+            adminRole: this._adminRole,
         }
     }
 

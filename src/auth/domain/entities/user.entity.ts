@@ -35,6 +35,7 @@ export class UserEntity {
 
     public toObject(): UserObject {
         return {
+            userId: this._userId,
             email: this._email,
             gender: this._gender,
             lastName: this._lastName,

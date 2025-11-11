@@ -4,6 +4,7 @@ import { CreateAdminAccountDto, UpdateAdminAccountDto } from './dto';
 import { Auth } from 'src/auth/presentation/decorators';
 import { UserRole } from 'src/auth/domain/enums';
 import { PaginationDto } from 'src/common/dto';
+import { FindAllDoc } from 'documentation/admin-accounts';
 
 
 @Controller('admin-accounts')
@@ -20,7 +21,9 @@ export class AdminAccountsController {
 
   @Get()
   @Auth(UserRole.SystemAdmin, UserRole.Visitor)
+  @FindAllDoc()
   async findAll(@Query() paginationDto: PaginationDto) {
+    
     return this.adminAccountsService.findAll(paginationDto);
   }
 

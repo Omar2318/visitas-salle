@@ -15,6 +15,6 @@ import { CreateArea, DeleteArea, GetAllAreas, GetArea, UpdateArea } from './appl
   ],
   controllers: [AreaController],
   providers: [AreaService, AreaRepositoryImpl, PostgresAreaDatasource, CreateArea, GetAllAreas, GetArea, UpdateArea, DeleteArea],
-  exports: [TypeOrmModule]
+  exports: [TypeOrmModule, AreaRepositoryImpl]
 })
 export class AreaModule {}

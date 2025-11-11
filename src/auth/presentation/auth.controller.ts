@@ -95,4 +95,16 @@ export class AuthController {
 
     return {...usuario.toObject()};
   }
+
+  @Post('log-out')
+  @HttpCode(200)
+  @Auth()
+  logOut(
+    @Res({passthrough: true}) res: Response,
+
+  ){
+    res.clearCookie('token');
+    return {message: 'Sesión cerrada correctamente'};
+  }
+
 }

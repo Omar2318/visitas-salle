@@ -27,7 +27,7 @@ export class ForgotPassword {
 
         const htmlBody = forgotPasswordEmail(link);
 
-        const isSent = await this.emailService.sendEmail({ to: email, subject: 'Valida tu email', htmlBody });
+        const isSent = await this.emailService.sendEmail({ to: email, subject: 'Recupera tu contraseña', htmlBody });
 
         if (!isSent) throw new InternalServerError();
     }

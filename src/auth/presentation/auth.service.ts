@@ -16,7 +16,7 @@ export class AuthService {
     private readonly loginUserUseCase: LoginUser,
     private readonly validateEmailUseCase: ValidateEmail,
     private readonly forgotPasswordUseCase: ForgotPassword,
-    private readonly resetPasswordUseCase: ResetPassword
+    private readonly resetPasswordUseCase: ResetPassword,
   ) { }
 
   async createVisitor(createUserDto: CreateVisitorDto) {

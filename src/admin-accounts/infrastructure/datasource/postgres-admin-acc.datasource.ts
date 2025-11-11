@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateAdminAccountOptions } from "src/admin-accounts/domain/interfaces";
+import { CreateAdminAccountOptions, UniversityAdminObject } from "src/admin-accounts/domain/interfaces";
 import { AdminAccountsDatasource } from "src/admin-accounts/domain/repository/admin-accounts.repository";
 import { UniversityAdmin } from "../data/postgres";
 import { Repository } from "typeorm";
@@ -10,6 +10,7 @@ import { InternalServerError, UserError } from "src/common/errors";
 import { v4 as uuid } from 'uuid';
 import { AreaEntity } from "src/area/domain/entities";
 import { UniversityAdminEntity } from "src/admin-accounts/domain/entities";
+import { PaginationOptions } from "src/common/interfaces";
 
 
 @Injectable()
@@ -59,5 +60,22 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource{
             
         }
        
+    } 
+
+    public async findAllByPagination(paginationOptions: PaginationOptions): Promise<UniversityAdminObject[]> {
+        const {limit = 5,page = 0} = paginationOptions;
+
+        const admins = await this.universityAdminRepo.find({
+            order: { area: {name: 'ASC'}},
+            take: limit,
+            skip: (page * limit)
+        });
+
+        console.log(admins)
+
+        return [];
     }
+
+
+    
 }

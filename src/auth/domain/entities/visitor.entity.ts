@@ -1,5 +1,6 @@
 import { Gender } from "src/common/enums";
 import { UserEntity } from "./user.entity";
+import { UserRole } from "../enums";
 
 export class VisitorEntity extends UserEntity {
 
@@ -15,11 +16,12 @@ export class VisitorEntity extends UserEntity {
         email: string,
         password: string,
         gender: Gender,
+        userRole: UserRole,
         isActive: boolean,
         private _ineImageName?: string
 
     ){
-        super(userId,names,lastName,secondLastName,email,password,gender, isActive);
+        super(userId,names,lastName,secondLastName,email,password,gender, userRole,isActive);
     }
 
     public get visitorId(){

@@ -5,7 +5,7 @@ import { AreaDatasource } from "src/area/domain/repository/area.repository";
 import { Area } from "../data/postgres";
 import { Repository } from "typeorm";
 import { InternalServerError, UserError } from "src/common/errors";
-import { AreaEntity, AreaProps } from "src/area/domain/entities";
+import { AreaEntity, AreaObject } from "src/area/domain/entities";
 import { PaginationOptions } from "src/common/interfaces";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class PostgresAreaDatasource implements AreaDatasource {
     ) { }
 
     private handleError(error: any): never {
-        if (error.constraint === 'UQ_644ffaf8fbde4db798cb47712fe') throw new UserError('El area ya existe');
+        if (error.constraint === 'UQ_644ffaf8fbde4db798cb47712fe') throw new UserError('El área ya existe');
 
         throw new InternalServerError();
     }
@@ -33,7 +33,7 @@ export class PostgresAreaDatasource implements AreaDatasource {
         }
     }
 
-    public async getAllAreas(paginationOptions: PaginationOptions): Promise<AreaProps[]> {
+    public async getAllAreas(paginationOptions: PaginationOptions): Promise<AreaObject[]> {
         
         
         const { page = 0, limit = 6 } = paginationOptions;

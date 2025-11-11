@@ -32,7 +32,7 @@ export class AuthService {
   async login(loginUserDto: LoginUserDto){
     try{
       const user = await this.loginUserUseCase.execute(loginUserDto);
-      return {token: this.getJwtToken({id: user.userId})};
+      return {token: this.getJwtToken({id: user.userId}), user};
     }catch(error){
       HandleError.throw(error)
     }

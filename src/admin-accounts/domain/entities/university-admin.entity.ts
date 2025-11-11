@@ -2,6 +2,11 @@ import { UserEntity } from "src/auth/domain/entities";
 import { Gender } from "src/common/enums";
 import { UniversityRole } from "../enums";
 import { AreaEntity } from "src/area/domain/entities";
+import { UniversityAdminObject } from "../interfaces";
+import { UserObject } from "src/auth/domain/interfaces";
+import { UserRole } from "src/auth/domain/enums";
+
+
 
 export class UniversityAdminEntity extends UserEntity {
 
@@ -13,21 +18,30 @@ export class UniversityAdminEntity extends UserEntity {
         email: string,
         password: string,
         gender: Gender,
+        role: UserRole,
         isActive: boolean,
-        private _role: UniversityRole,
+        private _adminRole: UniversityRole,
         private _adminId: string,
         private _area: AreaEntity,
     ) {
-        super(userId,names,lastName,secondLastName,email,password,gender, isActive);
+        super(userId,names,lastName,secondLastName,email,password,gender, role,isActive);
+    }
+
+    public toObject(): UniversityAdminObject {
+        return {
+            ...super.toObject(),
+            area: {...this._area.toObject()},
+            id: this._adminId,
+            role: this._adminRole,
+        }
     }
 
     public static fromObject(object: Record<string, any>): UniversityAdminEntity {
 
         const {id: adminId, user, role, area} = object;
-        const {id: userId, email, password, names, lastName, secondLastName, gender,isActive} = user;
+        const {id: userId, email, password, names, lastName, secondLastName, gender, role: userRole, isActive} = user;
         const objectArea = AreaEntity.fromObject(area);
 
-        return new UniversityAdminEntity(userId, names, lastName, secondLastName, email, password, gender, isActive,role, adminId, objectArea);
+        return new UniversityAdminEntity(userId, names, lastName, secondLastName, email, password, gender, userRole, isActive,role, adminId, objectArea);
     }
-
 }

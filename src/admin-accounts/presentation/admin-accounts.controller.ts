@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { AdminAccountsService } from './admin-accounts.service';
 import { CreateAdminAccountDto, UpdateAdminAccountDto } from './dto';
 import { Auth } from 'src/auth/presentation/decorators';
 import { UserRole } from 'src/auth/domain/enums';
+import { PaginationDto } from 'src/common/dto';
 
 
 @Controller('admin-accounts')
 export class AdminAccountsController {
+
   constructor(private readonly adminAccountsService: AdminAccountsService) {}
 
   @Post()
@@ -17,21 +19,25 @@ export class AdminAccountsController {
   }
 
   @Get()
-  findAll() {
-    return this.adminAccountsService.findAll();
+  @Auth(UserRole.SystemAdmin, UserRole.Visitor)
+  async findAll(@Query() paginationDto: PaginationDto) {
+    return this.adminAccountsService.findAll(paginationDto);
   }
 
   @Get(':id')
+  @Auth(UserRole.SystemAdmin, UserRole.Visitor)
   findOne(@Param('id') id: string) {
     return this.adminAccountsService.findOne(+id);
   }
 
   @Patch(':id')
+  @Auth(UserRole.SystemAdmin) 
   update(@Param('id') id: string, @Body() updateAdminAccountDto: UpdateAdminAccountDto) {
     return this.adminAccountsService.update(+id, updateAdminAccountDto);
   }
 
   @Delete(':id')
+  @Auth(UserRole.SystemAdmin)
   remove(@Param('id') id: string) {
     return this.adminAccountsService.remove(+id);
   }

@@ -1,4 +1,4 @@
-export interface AreaProps {
+export interface AreaObject {
     id: string;
     name: string;
 }
@@ -17,7 +17,7 @@ export class AreaEntity {
         return this._name;
     }
 
-    public toObject(): AreaProps{
+    public toObject(): AreaObject{
         return {
             id: this._id,
             name: this._name

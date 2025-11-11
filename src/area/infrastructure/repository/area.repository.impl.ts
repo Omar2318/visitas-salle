@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateAreaOptions, UpdateAreaOptions } from "src/area/domain/interfaces";
 import { AreaRepository } from "src/area/domain/repository/area.repository";
 import { PostgresAreaDatasource } from "../datasource";
-import { AreaEntity, AreaProps } from "src/area/domain/entities";
+import { AreaEntity, AreaObject } from "src/area/domain/entities";
 import { PaginationOptions } from "src/common/interfaces";
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AreaRepositoryImpl implements AreaRepository {
         return this.areaDatasource.createArea(createAreaOptions);
     }
 
-    getAllAreas(paginationOptions: PaginationOptions): Promise<AreaProps[]> {
+    getAllAreas(paginationOptions: PaginationOptions): Promise<AreaObject[]> {
         return this.areaDatasource.getAllAreas(paginationOptions);
     }
 

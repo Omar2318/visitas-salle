@@ -7,7 +7,7 @@ import { AdminAccountsService } from './presentation/admin-accounts.service';
 import { CommonModule } from 'src/common/common.module';
 import { AdminAccountsRepositoryImpl } from './infrastructure/repository/admin-accounts.impl';
 import { PostgresAdminAccountsDatasource } from './infrastructure/datasource';
-import { CreateAdminAccount } from './application/use-cases';
+import { CreateAdminAccount, FindAll } from './application/use-cases';
 import { AreaModule } from 'src/area/area.module';
 
 @Module({
@@ -18,6 +18,6 @@ import { AreaModule } from 'src/area/area.module';
     TypeOrmModule.forFeature([UniversityAdmin])
   ],
   controllers: [AdminAccountsController],
-  providers: [AdminAccountsService, AdminAccountsRepositoryImpl,PostgresAdminAccountsDatasource, CreateAdminAccount],
+  providers: [AdminAccountsService, AdminAccountsRepositoryImpl,PostgresAdminAccountsDatasource, CreateAdminAccount, FindAll],
 })
 export class AdminAccountsModule {}

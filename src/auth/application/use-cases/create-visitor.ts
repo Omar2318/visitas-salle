@@ -6,6 +6,7 @@ import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { InternalServerError } from "src/common/errors";
 import { VisitorEntity } from "src/auth/domain/entities/visitor.entity";
+import { verificationEmail } from "../email";
 
 @Injectable()
 export class CreateVisitor {
@@ -27,12 +28,13 @@ export class CreateVisitor {
     private async sendEmailValidationLink(visitorId: string, email: string){
         const token = this.jwtService.sign({visitorId});
         const link = `${this.configService.get<string>('WEBSERVICE_URL')}/api/auth/validate-email/${token}`;
-        const htmlBody = `<a href="${ link }">Valida tu email</a>`;
+        const htmlBody = verificationEmail(link);
        
         const isSent = await this.emailService.sendEmail({to: email, subject: 'Valida tu email', htmlBody});
 
         if ( !isSent ) throw new InternalServerError();
 
     }
+
 
 }

@@ -1,4 +1,6 @@
 import { Gender } from "src/common/enums";
+import { UserObject } from "../interfaces";
+import { UserRole } from "../enums";
 
 export class UserEntity {
 
@@ -11,6 +13,7 @@ export class UserEntity {
         protected _email: string,
         protected _password: string,
         protected _gender: Gender,
+        protected _role: UserRole,
         protected _isActive: boolean,
     ){}
 
@@ -26,10 +29,25 @@ export class UserEntity {
         return this._email;
     }
 
-    public static fromObject(object: Record<string, any>): UserEntity{
-        const {id,names,lastName, secondLastName, email,password, gender, isActive} = object;
+    public get role(): string {
+        return this._role;
+    }
 
-        return new UserEntity(id,names,lastName,secondLastName,email,password,gender, isActive);
+    public toObject(): UserObject {
+        return {
+            email: this._email,
+            gender: this._gender,
+            lastName: this._lastName,
+            names: this._names,
+            secondLastName: this._secondLastName,
+            userId: this._userId,
+        }
+    }
+
+    public static fromObject(object: Record<string, any>): UserEntity{
+        const {id,names,lastName, secondLastName, email,password, gender, role, isActive} = object;
+
+        return new UserEntity(id,names,lastName,secondLastName,email,password,gender,role, isActive);
     }
 
 }

@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdminAccountDto, UpdateAdminAccountDto } from './dto';
-import { CreateAdminAccount } from '../application/use-cases';
+import { CreateAdminAccount, FindAll } from '../application/use-cases';
 import { HandleError } from 'src/common/errors';
+import { PaginationDto } from 'src/common/dto';
 
 @Injectable()
 export class AdminAccountsService {
 
   constructor(
-    private readonly createAccountUseCase: CreateAdminAccount
+    private readonly createAccountUseCase: CreateAdminAccount,
+    private readonly findAllUseCase: FindAll,
   ){}
 
   async create(createAdminAccountDto: CreateAdminAccountDto) {
@@ -19,8 +21,8 @@ export class AdminAccountsService {
     
   }
 
-  findAll() {
-    return `This action returns all adminAccounts`;
+  findAll(paginationDto: PaginationDto) {
+    return this.findAllUseCase.execute(paginationDto);
   }
 
   findOne(id: number) {

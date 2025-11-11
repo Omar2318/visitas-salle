@@ -13,7 +13,7 @@ export class UserEntity {
         protected _email: string,
         protected _password: string,
         protected _gender: Gender,
-        protected _role: UserRole,
+        protected _userRole: UserRole,
         protected _isActive: boolean,
     ){}
 
@@ -30,7 +30,7 @@ export class UserEntity {
     }
 
     public get role(): string {
-        return this._role;
+        return this._userRole;
     }
 
     public toObject(): UserObject {
@@ -40,7 +40,7 @@ export class UserEntity {
             lastName: this._lastName,
             names: this._names,
             secondLastName: this._secondLastName,
-            userId: this._userId,
+            userRole: this._userRole,
         }
     }
 

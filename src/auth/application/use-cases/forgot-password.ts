@@ -4,6 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthRepositoryImpl } from "src/auth/infrastructure/repository/auth.repository.impl";
 import { InternalServerError } from "src/common/errors";
 import { EmailService } from "src/common/services";
+import { forgotPasswordEmail } from "../email";
 
 @Injectable()
 export class ForgotPassword {
@@ -24,7 +25,7 @@ export class ForgotPassword {
         const token = this.jwtService.sign({ userId: user.userId });
         const link = `${this.configService.get<string>('FRONT_URL')}/reset-password?token=${token}`;
 
-        const htmlBody = `<a href="${link}">Recupera tu contraseña</a>`;
+        const htmlBody = forgotPasswordEmail(link);
 
         const isSent = await this.emailService.sendEmail({ to: email, subject: 'Valida tu email', htmlBody });
 

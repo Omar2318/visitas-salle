@@ -4,6 +4,8 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { CreateVisitor, ForgotPassword, LoginUser, ResetPassword, ValidateEmail } from '../application/use-cases';
 import { HandleError } from 'src/common/errors';
+import { User } from '../infrastructure/data/postgres';
+import { UserEntity } from '../domain/entities';
 
 @Injectable()
 export class AuthService {
@@ -61,6 +63,13 @@ export class AuthService {
       return await this.resetPasswordUseCase.execute(resetPasswordDto);
     }catch(error){
       HandleError.throw(error)
+    }
+  }
+
+  public checkAuthStatus(user: User){
+    return {
+      user: UserEntity.fromObject(user),
+      token: this.getJwtToken({id: user.id}),
     }
   }
 

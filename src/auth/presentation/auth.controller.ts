@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Res, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, Param, HttpCode } from '@nestjs/common';
 import { type Response } from 'express';
 import { AuthService } from './auth.service';
 import { CreateVisitorDto, ForgotPasswordDto, LoginUserDto, ResetPasswordDto } from './dto';
@@ -6,6 +6,7 @@ import { UserRole } from '../domain/enums';
 import { User } from '../infrastructure/data/postgres';
 import { Auth, GetUser } from './decorators';
 import { ConfigService } from '@nestjs/config';
+import { AuthRouteDoc, CheckStatusDoc, ForgotPasswordDoc, LoginUserDoc, ResetPasswordDoc } from 'documentation/auth';
 
 
 @Controller('auth')
@@ -35,12 +36,14 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(200)
+  @LoginUserDoc()
   async loginUser(@Body() loginUserDto: LoginUserDto, @Res({ passthrough: true }) res: Response) {
     const { token, user } = await this.authService.login(loginUserDto);
 
     this.returnCookie(res, token);
 
-    return { role: user.role};
+    return { ...user.toObject()};
   }
 
   @Get('validate-email/:token')
@@ -61,6 +64,8 @@ export class AuthController {
 
 
   @Post('forgot-password')
+  @ForgotPasswordDoc()
+  @HttpCode(200)
   async recoverPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     const { email } = forgotPasswordDto;
     await this.authService.forgotPassword(email);
@@ -68,6 +73,8 @@ export class AuthController {
   }
 
   @Post('reset-password')
+  @HttpCode(200)
+  @ResetPasswordDoc()
   async resetPassoword(@Body() resetPasswordDto: ResetPasswordDto) {
     await this.authService.resetPassword(resetPasswordDto);
 
@@ -75,13 +82,17 @@ export class AuthController {
 
   }
 
-  //!El mero mero
-
-  @Get('private3')
-  @Auth(UserRole.UniversityAdmin)
-  privateRoute3(
-    @GetUser() user: User
+  @Get('check-status')
+  @Auth()
+  @AuthRouteDoc()
+  @CheckStatusDoc()
+  checkAuthStatus(
+    @GetUser() user: User,
+    @Res({passthrough: true}) res: Response
   ) {
-    return 'ok'
+    const {user: usuario,token} =  this.authService.checkAuthStatus( user );
+    this.returnCookie(res,token);
+
+    return {...usuario.toObject()};
   }
 }

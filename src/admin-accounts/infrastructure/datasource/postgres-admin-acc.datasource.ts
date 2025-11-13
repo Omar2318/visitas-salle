@@ -8,10 +8,9 @@ import { UserRole } from "src/auth/domain/enums";
 import { Area } from "src/area/infrastructure/data/postgres";
 import { InternalServerError, UserError } from "src/common/errors";
 import { v4 as uuid } from 'uuid';
-import { AreaEntity } from "src/area/domain/entities";
 import { UniversityAdminEntity } from "src/admin-accounts/domain/entities";
-import { PaginationOptions } from "src/common/interfaces";
 import { FindAdminsInput } from "src/admin-accounts/application/inputs";
+import { User } from "src/auth/infrastructure/data/postgres";
 
 
 @Injectable()
@@ -21,7 +20,9 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource 
         @InjectRepository(UniversityAdmin)
         private readonly universityAdminRepo: Repository<UniversityAdmin>,
         @InjectRepository(Area)
-        private readonly areaRepository: Repository<Area>
+        private readonly areaRepository: Repository<Area>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>
     ) { }
 
     private handleError(error): never {
@@ -82,27 +83,52 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource 
 
     public async findOne(userId: string): Promise<UniversityAdminEntity | null> {
         const admin = await this.universityAdminRepo.findOne({
-            relations: {user: true, area: true},
-            where: { user: {id: userId}},
+            relations: { user: true, area: true },
+            where: { user: { id: userId } },
         });
 
         return admin ? UniversityAdminEntity.fromObject(admin) : null;
-        
+
     }
 
     public async updateAccount(updateAccountOptions: UpdateAccountOptions): Promise<UniversityAdminEntity | null> {
-        const {userId} = updateAccountOptions
+
+        const {userId,areaId,email,gender,lastName,names,role,secondLastName } = updateAccountOptions;
         
-        const admin = await this.universityAdminRepo.findOne({
-            relations: {user: true, area: true},
-            where: {user: {id: userId}},
-        });
+    
+        try {
+            
+            const admin = await this.universityAdminRepo.findOne({
+                relations: { user: true, area: true },
+                where: { user: { id: userId } },
+            });
+            
+            if (!admin) return null;
 
-        if(!admin) return null;
-        //console.log(admin);
-        const newAdmin = {...admin, ...updateAccountOptions};
 
-        return null;
+            if (email !== undefined) admin.user.email = email;
+            if (gender !== undefined) admin.user.gender = gender;
+            if (lastName !== undefined) admin.user.lastName = lastName;
+            if (secondLastName !== undefined) admin.user.secondLastName = secondLastName;
+            if (names !== undefined) admin.user.names = names;
+
+            if (role !== undefined) admin.role = role;
+
+            if (areaId !== undefined) admin.area.id = areaId;
+
+            await this.universityAdminRepo.save(admin);
+
+            const newAdmin = await this.universityAdminRepo.findOne({
+                relations: {user: true, area: true},
+                where: {id: admin.id}
+            });
+
+            return UniversityAdminEntity.fromObject(newAdmin!);
+        } catch (error) {
+            this.handleError(error);
+        }
+
+
     }
 
 }

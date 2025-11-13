@@ -18,6 +18,7 @@ export class CreateVisitorDto extends CreateUserDto implements CreateVisitorInpu
     @IsString()
     @MinLength(1)
     @ApiProperty()
+    @Matches(/^\+?[1-9]\d{1,14}$/,{message: 'Ingresa un número de télefono valido'})
     phoneNumber: string;
 
     @IsDate()

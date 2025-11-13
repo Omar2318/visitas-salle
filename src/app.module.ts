@@ -7,6 +7,7 @@ import { AreaModule } from './area/area.module';
 import { SeedModule } from './seed/seed.module';
 import { AdminAccountsModule } from './admin-accounts/admin-accounts.module';
 import { CommonModule } from './common/common.module';
+import { SecurityEmailModule } from './security-email/security-email.module';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { CommonModule } from './common/common.module';
     SeedModule,
     AreaModule,    
     AdminAccountsModule, 
-    CommonModule,
+    CommonModule, SecurityEmailModule,
   ],
   controllers: [],
   providers: [],

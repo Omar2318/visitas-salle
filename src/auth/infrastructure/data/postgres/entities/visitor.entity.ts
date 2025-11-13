@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
+import { SystemAdmin } from "./system-admin.entity";
 
 @Entity()
 export class Visitor {

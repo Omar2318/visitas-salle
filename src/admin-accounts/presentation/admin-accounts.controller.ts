@@ -13,6 +13,7 @@ export class AdminAccountsController {
 
   constructor(private readonly adminAccountsService: AdminAccountsService) {}
 
+
   @Post()
   @Auth(UserRole.SystemAdmin)
   async create(@Body() createAdminAccountDto: CreateAdminAccountDto) {
@@ -24,7 +25,6 @@ export class AdminAccountsController {
   @Auth(UserRole.SystemAdmin, UserRole.Visitor)
   @FindAllDoc()
   async findAll(@Query() findAdminsDto: FindAdminsDto) {
-    
     return this.adminAccountsService.findAll(findAdminsDto);
   }
 
@@ -45,4 +45,8 @@ export class AdminAccountsController {
   remove(@Param('id') id: string) {
     return this.adminAccountsService.remove(+id);
   }
+
+  
+
+
 }

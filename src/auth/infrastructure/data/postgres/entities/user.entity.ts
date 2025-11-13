@@ -1,14 +1,26 @@
 import { UserRole } from "src/auth/domain/enums";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Helpers } from "src/common/helpers";
 import { Gender } from "src/common/enums";
+import { Visitor } from "./visitor.entity";
+import { SystemAdmin } from "./system-admin.entity";
+import { UniversityAdmin } from "src/admin-accounts/infrastructure/data/postgres";
 
 @Entity()
 export class User {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @OneToOne(()=> Visitor, (visitor)=> visitor.user)
+    visitor?: Visitor; 
+
+    @OneToOne(()=> SystemAdmin, (systemAdmin)=> systemAdmin.user)
+    systemAdmin?: SystemAdmin;
+
+    @OneToOne(()=> UniversityAdmin, (universityAdmin)=> universityAdmin.user)
+    universityAdmin?: UniversityAdmin;
 
     @Column('text', {
         unique: true

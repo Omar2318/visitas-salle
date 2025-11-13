@@ -9,4 +9,6 @@ export class SystemAdmin {
     @OneToOne(()=> User, {cascade: true, onDelete: 'CASCADE'})
     @JoinColumn()
     user: User;
+
+    
 }

@@ -25,9 +25,8 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource 
         private readonly userRepository: Repository<User>
     ) { }
 
-    private handleError(error): never {
+    private handleError(error: any): never {
         if (error.constraint === 'UQ_e12875dfb3b1d92d7d7c5377e22') throw new UserError('El email ya esta registrado');
-        console.log(error);
         throw new InternalServerError();
     }
 
@@ -106,15 +105,14 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource 
             if (!admin) return null;
 
 
-            if (email !== undefined) admin.user.email = email;
-            if (gender !== undefined) admin.user.gender = gender;
-            if (lastName !== undefined) admin.user.lastName = lastName;
-            if (secondLastName !== undefined) admin.user.secondLastName = secondLastName;
-            if (names !== undefined) admin.user.names = names;
+            if (email) admin.user.email = email;
+            if (gender) admin.user.gender = gender;
+            if (lastName) admin.user.lastName = lastName;
+            if (secondLastName) admin.user.secondLastName = secondLastName;
+            if (names) admin.user.names = names;
 
-            if (role !== undefined) admin.role = role;
-
-            if (areaId !== undefined) admin.area.id = areaId;
+            if (role) admin.role = role;
+            if (areaId) admin.area.id = areaId;
 
             await this.universityAdminRepo.save(admin);
 
@@ -130,5 +128,7 @@ export class PostgresAdminAccountsDatasource implements AdminAccountsDatasource 
 
 
     }
+
+    
 
 }

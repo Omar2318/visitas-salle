@@ -18,6 +18,14 @@ import { AreaModule } from 'src/area/area.module';
     TypeOrmModule.forFeature([UniversityAdmin])
   ],
   controllers: [AdminAccountsController],
-  providers: [AdminAccountsService, AdminAccountsRepositoryImpl,PostgresAdminAccountsDatasource, CreateAdminAccount, FindAll, FindOne, UpdateAdminAccount],
+  providers: [
+    AdminAccountsService, 
+    AdminAccountsRepositoryImpl,
+    PostgresAdminAccountsDatasource, 
+    CreateAdminAccount, 
+    FindAll, 
+    FindOne, 
+    UpdateAdminAccount,
+  ],
 })
 export class AdminAccountsModule {}

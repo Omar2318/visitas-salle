@@ -23,6 +23,7 @@ export function FindOneDoc() {
                             "lastName": "Martinez",
                             "names": "Jorge",
                             "secondLastName": "Morales",
+                            "userRole": "university admin",
                             "adminRole": "coordinador"
                         },
                         {
@@ -32,6 +33,7 @@ export function FindOneDoc() {
                             "lastName": "Martinez",
                             "names": "Diego",
                             "secondLastName": "Morales",
+                            "userRole": "university admin",
                             "adminRole": "coordinador"
                         }
                     ]

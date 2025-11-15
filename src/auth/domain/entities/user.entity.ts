@@ -41,6 +41,7 @@ export class UserEntity {
             lastName: this._lastName,
             names: this._names,
             secondLastName: this._secondLastName,
+            userRole: this._userRole,
         }
     }
 

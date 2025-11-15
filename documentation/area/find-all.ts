@@ -26,6 +26,7 @@ export function FindAllDoc() {
                                 "lastName": "Gomez",
                                 "names": "Damin",
                                 "secondLastName": "Morales",
+                                "userRole": "university admin",
                                 "adminRole": "director"
                             }
                         ]

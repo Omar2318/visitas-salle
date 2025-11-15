@@ -28,12 +28,17 @@ export class VisitorEntity extends UserEntity {
         return this._visitorId;
     }
 
+    public get emailVerified(){
+        return this._emailVerified;
+    }
+
     static fromObject(object: Record<string, any>){
+
         const {id:visitorId, user,phoneNumber, birthDate, emailVerified, ineImageName} = object;
 
         const {id:userId,email,password,names,lastName,secondLastName,gender,isActive,role} = user;
         
-        return new VisitorEntity(visitorId, phoneNumber, birthDate, emailVerified, userId, names, lastName, secondLastName, email, password, gender, isActive,ineImageName);
+        return new VisitorEntity(visitorId, phoneNumber, birthDate, emailVerified, userId, names, lastName, secondLastName, email, password, gender, role, isActive,ineImageName);
         
     }
 

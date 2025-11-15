@@ -7,6 +7,7 @@ import { User } from 'src/auth/infrastructure/data/postgres';
 import { UserRole } from 'src/auth/domain/enums';
 import { AuthRouteDoc } from 'documentation/auth';
 import { CreateScheduleDoc, DeleteScheduleDoc, FindByOwnerDoc, FindByVisitorDoc, UpdateScheduleDoc } from 'documentation/schedules';
+import { ApiCookieAuth } from '@nestjs/swagger';
 
 @Controller('schedules')
 @AuthRouteDoc()

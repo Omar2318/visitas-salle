@@ -41,8 +41,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
 
         if (!user) throw new UnauthorizedException('Token not valid');
+
         if(user.visitor){
             const visitor = user.visitor;
+            
             if(!visitor.emailVerified) throw new UnauthorizedException('Email no verificado');            
         }       
 

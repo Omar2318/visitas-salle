@@ -10,7 +10,7 @@ export class Schedule {
     
     @ManyToOne(()=> UniversityAdmin, (universityAdmin) => universityAdmin.schedule, {onDelete: 'CASCADE'})
     universityAdmin: UniversityAdmin;
-
+    
     @Column('time')
     startTime: string;
 

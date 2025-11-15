@@ -4,5 +4,5 @@ import { UniversityRole } from "../enums";
 
 export interface UniversityAdminObject extends UserObject {
     adminRole: UniversityRole,
-    area: AreaObject,
+    area?: AreaObject,
 }

@@ -1,5 +1,4 @@
 import { Gender } from "src/common/enums";
-import { UserRole } from "../enums";
 
 export interface UserObject {
     userId: string,
@@ -8,6 +7,4 @@ export interface UserObject {
     secondLastName: string,
     email: string,
     gender: Gender,
-    userRole: UserRole,
-
 }

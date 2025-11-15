@@ -16,13 +16,25 @@ export function FindAllDoc() {
             schema: {
                 example: [
                     {
-                        id: '57f77483-306a-40b0-800b-7f5bc0ecdbca',
-                        name: 'Coordinación',
+                        "id": "57f77483-306a-40b0-800b-7f5bc0ecdbca",
+                        "name": "Cordinacion",
+                        "universityAdmins": [
+                            {
+                                "userId": "d64349b9-59e7-4319-8dcc-57a93f2a3a57",
+                                "email": "hola2@gmail.com",
+                                "gender": "masculino",
+                                "lastName": "Gomez",
+                                "names": "Damin",
+                                "secondLastName": "Morales",
+                                "adminRole": "director"
+                            }
+                        ]
                     },
                     {
-                        id: 'ad0f3964-5094-4c59-afc9-f6855415e9a4',
-                        name: 'Comunicación',
-                    },
+                        "id": "07784ec5-90e2-41ea-9a00-d26b1501d0e3",
+                        "name": "Ingenieria",
+                        "universityAdmins": []
+                    }
                 ],
             },
         })

@@ -10,23 +10,23 @@ export class ScheduleRepositoryImpl implements ScheduleRepository{
         private readonly scheduleDatasource: PostgresScheduleDs
     ){}
 
-    create(createScheduleOptions: CreateScheduleOptions[]): Promise<void> {
-        return this.scheduleDatasource.create(createScheduleOptions);
+    create(universityAdminId: string, createScheduleOptions: CreateScheduleOptions[]): Promise<void> {
+        return this.scheduleDatasource.create(universityAdminId, createScheduleOptions);
     }
 
-    findOne(userId: string): Promise<ScheduleInterface[]> {
-        return this.scheduleDatasource.findOne(userId);
+    findOne(universityAdminId: string): Promise<ScheduleInterface[]> {
+        return this.scheduleDatasource.findOne(universityAdminId);
     }
 
-    removeAll(userId: string): Promise<boolean> {
-        return this.scheduleDatasource.removeAll(userId);
+    removeAll(universityAdminId: string): Promise<boolean> {
+        return this.scheduleDatasource.removeAll(universityAdminId);
     }
 
-    removeOne(userId: string, scheduleId: string): Promise<boolean> {
-        return this.scheduleDatasource.removeOne(userId,scheduleId);
+    removeOne(universityAdminId: string, scheduleId: string): Promise<boolean> {
+        return this.scheduleDatasource.removeOne(universityAdminId,scheduleId);
     }
 
-    update(updateScheduleOptions: UpdateScheduleOptions): Promise<void> {
-        return this.scheduleDatasource.update(updateScheduleOptions);
+    update(universityAdminId: string, updateScheduleOptions: UpdateScheduleOptions): Promise<void> {
+        return this.scheduleDatasource.update(universityAdminId, updateScheduleOptions);
     }
 }

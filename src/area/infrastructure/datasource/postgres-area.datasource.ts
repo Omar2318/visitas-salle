@@ -39,6 +39,7 @@ export class PostgresAreaDatasource implements AreaDatasource {
         const { page = 0, limit = 6 } = paginationOptions;
         
         const areas = await this.areaRepository.find({
+            relations: {universityAdmins: {user: true}},
             take: limit,
             skip: (limit * page)
         });
@@ -48,7 +49,12 @@ export class PostgresAreaDatasource implements AreaDatasource {
     }
 
     public async getArea(id: string): Promise<AreaEntity | null> {
-        const area = await this.areaRepository.findOneBy({id});
+
+        const area = await this.areaRepository.findOne({
+            relations: {universityAdmins: {user: true}},
+            where: {id},
+        });
+
         if(!area) return null;
 
         return AreaEntity.fromObject(area);

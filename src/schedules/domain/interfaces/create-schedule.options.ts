@@ -1,3 +1,3 @@
 import { ScheduleInterface } from "./schedule.interface";
 
-export type CreateScheduleOptions = Omit<ScheduleInterface,'scheduleId'>
+export type CreateScheduleOptions = Omit<ScheduleInterface,'id'>

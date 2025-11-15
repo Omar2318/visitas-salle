@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateScheduleDto } from './dto/create-schedule.dto';
+import { CreateScheduleDto, ScheduleBlockDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { ScheduleRepositoryImpl } from '../infrastructure/repository/schedule.repository.impl';
 import { DayOfWeek } from '../domain/enums';
@@ -14,10 +14,8 @@ export class SchedulesService {
     private readonly scheduleRepository: ScheduleRepositoryImpl
   ){}
 
-  
-  public async create(universityAdminId: string, createScheduleDto: CreateScheduleDto) {
-    
-    const {schedule} = createScheduleDto;
+  private validateSchedule(schedule: ScheduleBlockDto[]){
+
     const days: Record<string, CreateScheduleOptions[]> = {};
 
     for(let s of schedule) {
@@ -39,26 +37,37 @@ export class SchedulesService {
       days[dayOfWeek].push(s);
 
     }
-    try{
-      await this.scheduleRepository.create(universityAdminId,schedule);
-    }catch(error){
-      HandleError.throw(error);
-    }
   }
 
-  findAll() {
-    return `This action returns all schedules`;
+  
+  public async create(universityAdminId: string, createScheduleDto: CreateScheduleDto) {
+    
+    const existente = await this.scheduleRepository.findOne(universityAdminId);
+
+    if(existente.length > 0) throw new BadRequestException('No puedes insertar otro horario');
+
+    const {schedule} = createScheduleDto;
+
+    this.validateSchedule(schedule);
+
+    await this.scheduleRepository.create(universityAdminId,schedule);
+    
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} schedule`;
+  findOne(id: string) {
+    return this.scheduleRepository.findOne(id);
   }
 
-  update(id: number, updateScheduleDto: UpdateScheduleDto) {
-    return `This action updates a #${id} schedule`;
+  async update(id: string, updateScheduleDto: UpdateScheduleDto) {
+    const existente = await this.scheduleRepository.findOne(id);
+    if(existente.length === 0) throw new BadRequestException('No tienes un horario creado');
+    
+    const {schedule} = updateScheduleDto;
+    this.validateSchedule(schedule);
+    await this.scheduleRepository.update(id,schedule);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} schedule`;
+  remove(id: string) {
+    return this.scheduleRepository.remove(id);
   }
 }

@@ -18,15 +18,11 @@ export class ScheduleRepositoryImpl implements ScheduleRepository{
         return this.scheduleDatasource.findOne(universityAdminId);
     }
 
-    removeAll(universityAdminId: string): Promise<boolean> {
-        return this.scheduleDatasource.removeAll(universityAdminId);
+    remove(universityAdminId: string): Promise<boolean> {
+        return this.scheduleDatasource.remove(universityAdminId);
     }
 
-    removeOne(universityAdminId: string, scheduleId: string): Promise<boolean> {
-        return this.scheduleDatasource.removeOne(universityAdminId,scheduleId);
-    }
-
-    update(universityAdminId: string, updateScheduleOptions: UpdateScheduleOptions): Promise<void> {
+    update(universityAdminId: string, updateScheduleOptions: UpdateScheduleOptions[]): Promise<void> {
         return this.scheduleDatasource.update(universityAdminId, updateScheduleOptions);
     }
 }

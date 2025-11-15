@@ -9,7 +9,7 @@ import { CreateScheduleOptions } from "src/schedules/domain/interfaces";
 export class ScheduleBlockDto implements CreateScheduleOptions{
 
   @IsEnum(DayOfWeek)
-  @ApiProperty()
+  @ApiProperty({enum: DayOfWeek})
   dayOfWeek: DayOfWeek;
 
   @Matches(/^(0[7-9]|1\d|20):[0-5]\d$/, {

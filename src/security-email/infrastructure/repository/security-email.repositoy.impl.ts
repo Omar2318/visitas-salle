@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { SecurityEmailRepository } from "src/security-email/domain/repository";
 import { PostgresSecEmailDataS } from "../datasource";
-import { PaginationOptions } from "src/common/interfaces";
 import { SecurityEmailInterface } from "src/security-email/domain/interfaces/security-email.interface";
+import { FindEmailsOptions } from "src/security-email/domain/interfaces";
 
 @Injectable()
 export class SecEmailRepoImpl implements SecurityEmailRepository{
@@ -19,8 +19,8 @@ export class SecEmailRepoImpl implements SecurityEmailRepository{
         return this.securityEmailDatasource.update(id,newEmail);
     }
 
-    findAll(paginationOptions: PaginationOptions): Promise<SecurityEmailInterface[]> {
-        return this.securityEmailDatasource.findAll(paginationOptions);
+    findAll(findEmailsOptions: FindEmailsOptions): Promise<SecurityEmailInterface[]> {
+        return this.securityEmailDatasource.findAll(findEmailsOptions);
     }
 
     findOne(id: string): Promise<SecurityEmailInterface | null> {

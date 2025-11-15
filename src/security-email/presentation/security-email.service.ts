@@ -4,6 +4,7 @@ import { UpdateSecurityEmailDto } from './dto/update-security-email.dto';
 import { SecEmailRepoImpl } from '../infrastructure/repository';
 import { HandleError, NotFoundError, UserError } from 'src/common/errors';
 import { PaginationDto } from 'src/common/dto';
+import { FindEmailsDto } from './dto';
 
 @Injectable()
 export class SecurityEmailService {
@@ -25,8 +26,8 @@ export class SecurityEmailService {
 
   }
 
-  findAll(paginationDto: PaginationDto) {
-    return this.securityEmailRepo.findAll(paginationDto);
+  findAll(findEmailsDto: FindEmailsDto) {
+    return this.securityEmailRepo.findAll(findEmailsDto);
   }
 
   public async findOne(id: string) {

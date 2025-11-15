@@ -7,6 +7,7 @@ import { AuthRouteDoc } from 'documentation/auth';
 import { Auth } from 'src/auth/presentation/decorators';
 import { UserRole } from 'src/auth/domain/enums';
 import { CreateSecEmailDoc, FindAllSecEmDoc, FindOneSecEmDoc, RemoveSecEmailDoc, UpdateSecEmailDoc } from 'documentation/security-email';
+import { FindEmailsDto } from './dto';
 
 
 @AuthRouteDoc()
@@ -25,8 +26,8 @@ export class SecurityEmailController {
   @Get()
   @Auth(UserRole.SystemAdmin)
   @FindAllSecEmDoc()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.securityEmailService.findAll(paginationDto);
+  findAll(@Query() findEmailsDto: FindEmailsDto) {
+    return this.securityEmailService.findAll(findEmailsDto);
   }
 
   @Get(':id')
